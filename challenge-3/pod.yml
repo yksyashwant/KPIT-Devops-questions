@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  connection-string: "database_host:port/database_name"
+  username: "user1"
+  hostname: "host.example.com"
+  uri: "http://example.com/api"
+  url: "https://example.com/app"
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: app-pod
+spec:
+  containers:
+  - name: app-container
+    image: busybox
+    env:
+    - name: CONNECTION_STRING
+      valueFrom:
+        configMapKeyRef:
+          name: app-config
+          key: connection-string
+    - name: USERNAME
+      valueFrom:
+        configMapKeyRef:
+          name: app-config
+          key: username
+    - name: HOSTNAME
+      valueFrom:
+        configMapKeyRef:
+          name: app-config
+          key: hostname
+    - name: URI
+      valueFrom:
+        configMapKeyRef:
+          name: app-config
+          key: uri
+    - name: URL
+      valueFrom:
+        configMapKeyRef:
+          name: app-config
+          key: url

@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sample-csv
+data:
+  sample.csv: |
+    Column1,Column2
+    Value1,Value2
+    Value3,Value4
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: MediaWiki-Pod
+spec:
+  containers:
+  - name: container-MW
+    image: mediawiki
+    volumeMounts:
+    - name: sample-csv
+      mountPath: /app/sample.csv
+      subPath: sample.csv
+  volumes:
+  - name: sample-csv
+    configMap:
+      name: sample-csv
